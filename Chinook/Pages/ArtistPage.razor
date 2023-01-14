@@ -77,23 +77,6 @@ else
         UserId = await GetUserId();
         Artist = await _artist.GetArtist(ArtistId);
         Tracks = await _artist.GetTracks(UserId, ArtistId);
-
-        //await InvokeAsync(StateHasChanged);
-        //CurrentUserId = await GetUserId();
-        //var DbContext = await DbFactory.CreateDbContextAsync();
-
-        //Artist = DbContext.Artists.SingleOrDefault(a => a.ArtistId == ArtistId);
-
-        //Tracks = DbContext.Tracks.Where(a => a.Album.ArtistId == ArtistId)
-        //    .Include(a => a.Album)
-        //    .Select(t => new PlaylistTrack()
-        //        {
-        //            AlbumTitle = (t.Album == null ? "-" : t.Album.Title),
-        //            TrackId = t.TrackId,
-        //            TrackName = t.Name,
-        //            IsFavorite = t.Playlists.Where(p => p.UserPlaylists.Any(up => up.UserId == CurrentUserId && up.Playlist.Name == "Favorites")).Any()
-        //        })
-        //    .ToList();
     }
 
     private void FavoriteTrack(long trackId)

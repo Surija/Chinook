@@ -4,10 +4,10 @@ This application is unfinished. Please complete below tasks. Spend max 3 hours. 
 
 1. Move data retrieval methods to separate class / classes (use dependency injection)
 
--> Added 4 Interfaces Under Database -> Persistence and added data retrieval methods under the respective areas (Artist, Playlist, Track & UserPlaylist)
--> Updated pages to call newly defined methods.
--> Registered depency injection in the Program.cs file.
--> Renamed ClientModel Playlist to PlaylistDto to avoid confusion
+* Added 4 Interfaces Under Database -> Persistence and added data retrieval methods under the respective areas (Artist, Playlist, Track & UserPlaylist)
+* Updated pages to call newly defined methods.
+* Registered depency injection in the Program.cs file.
+* Renamed ClientModel Playlist to PlaylistDto to avoid confusion
 
 2. Favorite / unfavorite tracks. An automatic playlist should be created named "My favorite tracks"
 4. The user's playlists should be listed in the left navbar. If a playlist is added (or modified), this should reflect in the left navbar. There is already one playlist link in the Nav Menu as an example.
@@ -16,6 +16,11 @@ This application is unfinished. Please complete below tasks. Spend max 3 hours. 
 6. User should be able to rename the playlist
 6. User should be able to remove the whole playlist
 7. Search for artist name
+
+* Installed the Nuget Package Syncfusion.Blazor and registered it in Program.cs
+* Replaced the table in Index.razor with SfGrid (this made it easy to filter the artist)
+* Filtering or searching occurs immediately on key down 
+
 
 When creating a user account, you will see this:
 "This app does not currently have a real email sender registered, see these docs for how to configure a real email sender. Normally this would be emailed: Click here to confirm your account."

@@ -4,6 +4,7 @@ using Chinook.Database.Persistence;
 using Chinook.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Syncfusion.Blazor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 builder.Services.AddScoped<IPlaylistRepository, PlaylistRepository>();
 builder.Services.AddScoped<ITrackRepository, TrackRepository>();
 builder.Services.AddScoped<IUserPlaylistRepository, UserPlaylistRepository>();
-
+builder.Services.AddSyncfusionBlazor();
 
 
 var app = builder.Build();
