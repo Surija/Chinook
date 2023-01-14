@@ -7,6 +7,8 @@
 
 @using Chinook.Database.Persistence
 @inject IPlaylistRepository _playlist;
+@inject IUserPlaylistRepository _userPlaylist;
+@inject ITrackRepository _track;
 
 <h1>Playlist <strong>@Playlist.Name</strong></h1>
 
@@ -97,10 +99,33 @@ else
         InfoMessage = $"Track {track.ArtistName} - {track.AlbumTitle} - {track.TrackName} removed from playlist Favorites.";
     }
 
-    private void RemoveTrack(long trackId)
+    private async void RemoveTrack(long trackId)
     {
+        var domainTrack = Playlist.Tracks.FirstOrDefault(t => t.TrackId == trackId);
+        var UserId = await GetUserId();
         CloseInfoMessage();
 
+        var userPlaylist = await _userPlaylist.GetPlaylist(UserId, PlaylistId);
+        if (userPlaylist != null)
+        {
+
+            var status = await _track.RemoveTrack(userPlaylist.Playlist.PlaylistId, trackId);
+            if (status)
+            {
+                InfoMessage = $"Track {domainTrack.ArtistName} - {domainTrack.AlbumTitle} - {domainTrack.TrackName} removed from playlist {userPlaylist.Playlist.Name}.";
+            }
+            else
+            {
+                InfoMessage = $"Track {domainTrack.ArtistName} - {domainTrack.AlbumTitle} - {domainTrack.TrackName} does not exist.";
+            }
+        }
+        else
+        {
+            InfoMessage = $"User has no such playlist.";
+
+        }
+
+        await OnInitializedAsync();
     }
 
 

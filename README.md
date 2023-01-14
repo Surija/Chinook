@@ -25,6 +25,9 @@ This application is unfinished. Please complete below tasks. Spend max 3 hours. 
 * Implemented method to associate a playlist with the login user
 
 5. The user should be able to remove tracks from the playlist.
+
+* Implemented a method to remove a particular track from the selected playlist.
+
 6. User should be able to rename the playlist
 8. User should be able to remove the whole playlist
 
