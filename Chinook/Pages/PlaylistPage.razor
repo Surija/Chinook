@@ -5,6 +5,9 @@
 @using Microsoft.EntityFrameworkCore
 @using System.Security.Claims;
 
+@using Chinook.Database.Persistence
+@inject IPlaylistRepository _playlist;
+
 <h1>Playlist <strong>@Playlist.Name</strong></h1>
 
 @if (!string.IsNullOrWhiteSpace(InfoMessage))
@@ -65,40 +68,38 @@ else
     [Inject] IDbContextFactory<ChinookContext> DbFactory { get; set; }
     [CascadingParameter] private Task<AuthenticationState> authenticationState { get; set; }
 
-    private Chinook.ClientModels.Playlist Playlist;
-    private string CurrentUserId;
+    private Chinook.ClientModels.PlaylistDto Playlist;
+    private string UserId;
     private string InfoMessage;
 
     protected override async Task OnInitializedAsync()
     {
-        CurrentUserId = await GetUserId();
 
+        var UserId = await GetUserId();
         await InvokeAsync(StateHasChanged);
-        var DbContext = await DbFactory.CreateDbContextAsync();
+        Playlist = await _playlist.GetPlaylist(UserId, PlaylistId);
 
-        Playlist = DbContext.Playlists
-            .Include(a => a.Tracks).ThenInclude(a => a.Album).ThenInclude(a => a.Artist)
-            .Where(p => p.PlaylistId == PlaylistId)
-            .Select(p => new ClientModels.Playlist()
-                {
-                    Name = p.Name,
-                    Tracks = p.Tracks.Select(t => new ClientModels.PlaylistTrack()
-                    {
-                        AlbumTitle = t.Album.Title,
-                        ArtistName = t.Album.Artist.Name,
-                        TrackId = t.TrackId,
-                        TrackName = t.Name,
-                        IsFavorite = t.Playlists.Where(p => p.UserPlaylists.Any(up => up.UserId == CurrentUserId && up.Playlist.Name == "Favorites")).Any()
-                    }).ToList()
-                })
-            .FirstOrDefault();
-    }
+        //CurrentUserId = await GetUserId();
 
-    private async Task<string> GetUserId()
-    {
-        var user = (await authenticationState).User;
-        var userId = user.FindFirst(u => u.Type.Contains(ClaimTypes.NameIdentifier))?.Value;
-        return userId;
+        //await InvokeAsync(StateHasChanged);
+        //var DbContext = await DbFactory.CreateDbContextAsync();
+
+        //Playlist = DbContext.Playlists
+        //    .Include(a => a.Tracks).ThenInclude(a => a.Album).ThenInclude(a => a.Artist)
+        //    .Where(p => p.PlaylistId == PlaylistId)
+        //    .Select(p => new ClientModels.Playlist()
+        //        {
+        //            Name = p.Name,
+        //            Tracks = p.Tracks.Select(t => new ClientModels.PlaylistTrack()
+        //            {
+        //                AlbumTitle = t.Album.Title,
+        //                ArtistName = t.Album.Artist.Name,
+        //                TrackId = t.TrackId,
+        //                TrackName = t.Name,
+        //                IsFavorite = t.Playlists.Where(p => p.UserPlaylists.Any(up => up.UserId == CurrentUserId && up.Playlist.Name == "Favorites")).Any()
+        //            }).ToList()
+        //        })
+        //    .FirstOrDefault();
     }
 
     private void FavoriteTrack(long trackId)
@@ -119,9 +120,21 @@ else
 
     }
 
+
+    #region General Methods
+
+    private async Task<string> GetUserId()
+    {
+        var user = (await authenticationState).User;
+        var userId = user.FindFirst(u => u.Type.Contains(ClaimTypes.NameIdentifier))?.Value;
+        return userId;
+    }
+
     private void CloseInfoMessage()
     {
         InfoMessage = "";
     }
+
+    #endregion
 
 }
