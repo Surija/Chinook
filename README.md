@@ -12,6 +12,14 @@ This application is unfinished. Please complete below tasks. Spend max 3 hours. 
 2. Favorite / unfavorite tracks. An automatic playlist should be created named "My favorite tracks"
 4. The user's playlists should be listed in the left navbar. If a playlist is added (or modified), this should reflect in the left navbar. There is already one playlist link in the Nav Menu as an example.
 3. Add tracks to a playlist (existing or new one). The dialog is already created but not yet finished.
+
+* Removed default list of playlists and replaced with actual data
+* Implemented methods to get a list of playlists to display in the modal
+* Implemented method to add a track to a playlist
+* Implemented a method to add a new playlist by binding name entered in the modal
+* Implemented method to check if a user has a particular playlist 
+* Implemented method to associate a playlist with the login user
+
 5. The user should be able to remove tracks from the playlist.
 6. User should be able to rename the playlist
 6. User should be able to remove the whole playlist
