@@ -27,6 +27,10 @@ This application is unfinished. Please complete below tasks. Spend max 3 hours. 
 5. The user should be able to remove tracks from the playlist.
 6. User should be able to rename the playlist
 8. User should be able to remove the whole playlist
+
+* Updated NavMenu.razor to include a delete icon next to each playlist.
+* Implemented method to delete a playlist
+
 7. Search for artist name
 
 * Installed the Nuget Package Syncfusion.Blazor and registered it in Program.cs

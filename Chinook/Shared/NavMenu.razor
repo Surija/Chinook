@@ -27,6 +27,8 @@
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="@($"playlist/{playlist.PlaylistId}")" Match="NavLinkMatch.All">
                     <i class="bi bi-music-note-list me-3" style="font-size: 1.25em"></i>@playlist.Playlist.Name
+                    <a href="" Match="NavLinkMatch.All" class="m-1" title="Remove playlist" @onclick="@(() => RemovePlaylist(@playlist.PlaylistId))" @onclick:preventDefault><i class="bi bi-trash"></i></a>
+
                 </NavLink>
             </div>
         }
@@ -52,6 +54,13 @@
 
     protected override async Task OnParametersSetAsync()
     {
+        await OnInitializedAsync();
+    }
+
+    private async void RemovePlaylist(long PlaylistId)
+    {
+        var UserId = await GetUserId();
+        var status = await _userPlaylist.RemovePlaylist(UserId, PlaylistId);
         await OnInitializedAsync();
     }
     

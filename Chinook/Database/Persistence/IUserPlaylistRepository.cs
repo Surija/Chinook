@@ -8,6 +8,7 @@ namespace Chinook.Database.Persistence
         Task<UserPlaylist?> GetPlaylist(string userId, long playlistId);
         Task<UserPlaylist> AddPlaylist(UserPlaylist playlist);
         Task<List<UserPlaylist>> GetAllPlaylists(string userId);
+        Task<bool> RemovePlaylist(string userId, long playlistId);
     }
 
     public class UserPlaylistRepository : IUserPlaylistRepository
@@ -36,6 +37,21 @@ namespace Chinook.Database.Persistence
         {
             var dbContext = await _contextFactory.CreateDbContextAsync();
             return dbContext.UserPlaylists.Where(up => up.UserId == userId).Include(a => a.User).Include(a => a.Playlist).ToList();
+        }
+
+        public async Task<bool> RemovePlaylist(string userId, long playlistId)
+        {
+            var dbContext = await _contextFactory.CreateDbContextAsync();
+            var playlist = dbContext.UserPlaylists.FirstOrDefault(x => x.UserId == userId && x.PlaylistId == playlistId);
+            if (playlist != null)
+            {
+                dbContext.UserPlaylists.Remove(playlist);
+                dbContext.SaveChanges();
+                return true;
+            }
+
+            return false;
+
         }
     }
 }
