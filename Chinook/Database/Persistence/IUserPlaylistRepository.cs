@@ -7,6 +7,7 @@ namespace Chinook.Database.Persistence
     {
         Task<UserPlaylist?> GetPlaylist(string userId, long playlistId);
         Task<UserPlaylist> AddPlaylist(UserPlaylist playlist);
+        Task<List<UserPlaylist>> GetAllPlaylists(string userId);
     }
 
     public class UserPlaylistRepository : IUserPlaylistRepository
@@ -29,6 +30,12 @@ namespace Chinook.Database.Persistence
             await dbContext.UserPlaylists.AddAsync(playlist);
             dbContext.SaveChanges();
             return playlist;
+        }
+
+        public async Task<List<UserPlaylist>> GetAllPlaylists(string userId)
+        {
+            var dbContext = await _contextFactory.CreateDbContextAsync();
+            return dbContext.UserPlaylists.Where(up => up.UserId == userId).Include(a => a.User).Include(a => a.Playlist).ToList();
         }
     }
 }

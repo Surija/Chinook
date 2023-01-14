@@ -1,4 +1,10 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Chinook.Models
+@using Chinook.Database.Persistence
+@using System.Security.Claims;
+@inject IUserPlaylistRepository _userPlaylist;
+@inject NavigationManager NavigationManager;
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Chinook</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -14,11 +20,16 @@
                 <span class="oi oi-home" aria-hidden="true"></span>Home
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="playlist/1">
-                <i class="bi bi-music-note-list me-3" style="font-size: 1.25em"></i>My favorite tracks
-            </NavLink>
-        </div>
+
+        @*Loop over user's playlist*@
+        @foreach (var playlist in UserPlaylists)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="@($"playlist/{playlist.PlaylistId}")" Match="NavLinkMatch.All">
+                    <i class="bi bi-music-note-list me-3" style="font-size: 1.25em"></i>@playlist.Playlist.Name
+                </NavLink>
+            </div>
+        }
 
     </nav>
 </div>
@@ -27,9 +38,37 @@
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string UserId;
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationState { get; set; }
+    private List<UserPlaylist> UserPlaylists = new List<UserPlaylist>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var UserId = await GetUserId();
+        await InvokeAsync(StateHasChanged);
+        UserPlaylists = await _userPlaylist.GetAllPlaylists(UserId);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+    }
+    
+
+    #region General Methods
+
+    private async Task<string> GetUserId()
+    {
+        var user = (await authenticationState).User;
+        var userId = user.FindFirst(u => u.Type.Contains(ClaimTypes.NameIdentifier))?.Value;
+        return userId;
+    }
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    #endregion
 }

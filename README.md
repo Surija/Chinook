@@ -11,6 +11,10 @@ This application is unfinished. Please complete below tasks. Spend max 3 hours. 
 
 2. Favorite / unfavorite tracks. An automatic playlist should be created named "My favorite tracks"
 4. The user's playlists should be listed in the left navbar. If a playlist is added (or modified), this should reflect in the left navbar. There is already one playlist link in the Nav Menu as an example.
+
+* Implemented method to get a list of all the user's playlists.
+* Removed example and updated NavMenu.razor to loop over actual data.
+
 3. Add tracks to a playlist (existing or new one). The dialog is already created but not yet finished.
 
 * Removed default list of playlists and replaced with actual data
@@ -22,7 +26,7 @@ This application is unfinished. Please complete below tasks. Spend max 3 hours. 
 
 5. The user should be able to remove tracks from the playlist.
 6. User should be able to rename the playlist
-6. User should be able to remove the whole playlist
+8. User should be able to remove the whole playlist
 7. Search for artist name
 
 * Installed the Nuget Package Syncfusion.Blazor and registered it in Program.cs

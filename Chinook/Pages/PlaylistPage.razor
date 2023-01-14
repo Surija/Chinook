@@ -80,6 +80,11 @@ else
         Playlist = await _playlist.GetPlaylist(UserId, PlaylistId);
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+    }
+
     private void FavoriteTrack(long trackId)
     {
         var track = Playlist.Tracks.FirstOrDefault(t => t.TrackId == trackId);
