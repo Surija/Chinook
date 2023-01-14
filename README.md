@@ -10,6 +10,12 @@ This application is unfinished. Please complete below tasks. Spend max 3 hours. 
 * Renamed ClientModel Playlist to PlaylistDto to avoid confusion
 
 2. Favorite / unfavorite tracks. An automatic playlist should be created named "My favorite tracks"
+
+* Added a Service called TrackService and registered it in Program.cs file.
+* TrackService contains common methods shared by both the ArtistPage and PlaylistPage.
+* Implemented methods to mark a track as favorite and unfavorite.
+* If user has no Favorite playlist, one is created.
+
 4. The user's playlists should be listed in the left navbar. If a playlist is added (or modified), this should reflect in the left navbar. There is already one playlist link in the Nav Menu as an example.
 
 * Implemented method to get a list of all the user's playlists.

@@ -1,6 +1,7 @@
 using Chinook;
 using Chinook.Areas.Identity;
 using Chinook.Database.Persistence;
+using Chinook.Services;
 using Chinook.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 builder.Services.AddScoped<IPlaylistRepository, PlaylistRepository>();
 builder.Services.AddScoped<ITrackRepository, TrackRepository>();
 builder.Services.AddScoped<IUserPlaylistRepository, UserPlaylistRepository>();
+builder.Services.AddScoped<ITrackService, TrackService>();
 builder.Services.AddSyncfusionBlazor();
 
 
