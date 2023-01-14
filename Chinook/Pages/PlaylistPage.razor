@@ -12,7 +12,7 @@
 @inject ITrackRepository _track;
 @inject ITrackService _trackService;
 
-<h1>Playlist <strong>@Playlist.Name</strong></h1>
+<InputText id="name" Value="@Playlist.Name" ValueChanged="PlaylistNameChanged" ValueExpression="() => Playlist.Name"></InputText>
 
 @if (!string.IsNullOrWhiteSpace(InfoMessage))
 {
@@ -136,6 +136,11 @@ else
         await OnInitializedAsync();
     }
 
+    private async void PlaylistNameChanged(string value)
+    {
+        await _playlist.RenamePlaylist(PlaylistId, value);
+        Playlist.Name = value;
+    }
 
     #region General Methods
 

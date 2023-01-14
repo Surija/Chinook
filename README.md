@@ -35,6 +35,10 @@ This application is unfinished. Please complete below tasks. Spend max 3 hours. 
 * Implemented a method to remove a particular track from the selected playlist.
 
 6. User should be able to rename the playlist
+
+* Implemented a method to rename a playlist.
+* Altered the heading in PlaylistRazor to an input where user can rename the playlist.
+
 8. User should be able to remove the whole playlist
 
 * Updated NavMenu.razor to include a delete icon next to each playlist.

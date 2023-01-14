@@ -9,6 +9,7 @@ namespace Chinook.Database.Persistence
         Task<PlaylistDto> GetPlaylist(string userId, long playlistId);
         Task<List<Playlist>> GetAllPlaylist();
         Task<Playlist> AddPlaylist(string playlistName);
+        Task RenamePlaylist(long playlistId, string playlistName);
     }
 
     public class PlaylistRepository : IPlaylistRepository
@@ -59,6 +60,19 @@ namespace Chinook.Database.Persistence
             await dbContext.Playlists.AddAsync(playlist);
             dbContext.SaveChanges();
             return playlist;
+        }
+
+        public async Task RenamePlaylist(long playlistId, string playlistName)
+        {
+            var dbContext = await _contextFactory.CreateDbContextAsync();
+            var playlist = dbContext.Playlists.FirstOrDefault(x => x.PlaylistId == playlistId);
+            if (playlist != null)
+            {
+                playlist.Name = playlistName;
+                dbContext.Playlists.Update(playlist);
+                dbContext.SaveChanges();
+
+            }
         }
     }
 }
